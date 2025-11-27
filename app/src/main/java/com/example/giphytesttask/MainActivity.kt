@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val apiKey = "API_KEY"
+        val apiKey = BuildConfig.GIPHY_API_KEY
 
         setContent {
             GIPHYTestTaskTheme {
