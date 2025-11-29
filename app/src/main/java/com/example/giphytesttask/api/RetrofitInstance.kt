@@ -1,4 +1,4 @@
-package api
+package com.example.giphytesttask.api
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

@@ -1,4 +1,4 @@
-package api
+package com.example.giphytesttask.api
 
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -9,7 +9,7 @@ interface GiphyApi {
     suspend fun searchGifs(
         @Query("api_key") apiKey: String,
         @Query("q") query: String,
-        @Query("limit") limit: Int = 25,
+        @Query("limit") limit: Int = 10,
         @Query("offset") offset: Int = 0
     ): GiphyResponse
 }

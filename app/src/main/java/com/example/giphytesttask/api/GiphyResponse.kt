@@ -1,4 +1,4 @@
-package api
+package com.example.giphytesttask.api
 
 data class GiphyResponse(
     val data: List<GiphyGif>
