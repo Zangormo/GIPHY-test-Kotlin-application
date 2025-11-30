@@ -21,6 +21,8 @@ fun SearchScreen(
     modifier: Modifier = Modifier,
     onGifClick: (String) -> Unit
 ) {
+    // collectAsState collects values from the StateFlow and represents the latest value as Compose State.
+    // Whenever the StateFlow emits a new value, this Composable will recompose (redraw).
     val uiState by viewModel.uiState.collectAsState()
     val configuration = LocalConfiguration.current
     val columnCount = if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) 3 else 2
@@ -56,6 +58,8 @@ fun SearchScreen(
             )
         }
 
+        // LazyVerticalStaggeredGrid is a vertically scrolling list that supports multiple columns of different heights.
+        // It only composes and lays out items that are currently visible on the screen (efficient for large lists).
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Fixed(columnCount),
             modifier = Modifier.fillMaxSize(),

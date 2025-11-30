@@ -23,12 +23,17 @@ object RetrofitInstance {
         .add(KotlinJsonAdapterFactory())
         .build()
 
+    // 'lazy' means this variable will be initialized only when it's first accessed.
+    // This is a thread-safe way to create a Singleton in Kotlin.
     val api: GiphyApi by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
+            // Set the HTTP client (OkHttp) to handle requests
             .client(client)
+            // Add a converter factory to parse JSON responses into Kotlin objects using Moshi
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
+            // Create an implementation of the GiphyApi interface
             .create(GiphyApi::class.java)
     }
 }

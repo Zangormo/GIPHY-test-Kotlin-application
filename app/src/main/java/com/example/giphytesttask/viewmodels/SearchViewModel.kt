@@ -35,6 +35,8 @@ class SearchViewModel(
     private val apiKey: String
 ) : ViewModel() {
 
+    // MutableStateFlow is a state holder observable flow that emits the current and new state updates.
+    // It's like a variable that you can observe for changes.
     private val _uiState = MutableStateFlow(
         SearchUiState(
             searchQuery = savedStateHandle["searchQuery"] ?: "",
@@ -42,6 +44,7 @@ class SearchViewModel(
             offset = savedStateHandle["offset"] ?: 0
         )
     )
+    // Expose an immutable StateFlow to the UI so it can't modify the state directly.
     val uiState: StateFlow<SearchUiState> = _uiState.asStateFlow()
 
     private var searchJob: Job? = null
@@ -60,6 +63,8 @@ class SearchViewModel(
         _uiState.value = _uiState.value.copy(searchQuery = query)
         savedStateHandle["searchQuery"] = query
 
+        // Cancel the previous search job if the user keeps typing.
+        // This prevents unnecessary network requests for every keystroke.
         searchJob?.cancel()
 
         if (query.isBlank()) {
@@ -74,6 +79,8 @@ class SearchViewModel(
             return
         }
 
+        // Launch a new coroutine in the viewModelScope.
+        // viewModelScope is tied to the ViewModel's lifecycle and will be cancelled when ViewModel is cleared.
         searchJob = viewModelScope.launch {
             _uiState.value = _uiState.value.copy(
                 isLoading = true,
@@ -82,7 +89,7 @@ class SearchViewModel(
                 canLoadMore = true
             )
 
-            delay(1500) // Debounce
+            delay(1500) // Debounce: Wait for 1.5 seconds of inactivity before searching
 
             performSearch(query, 0, resetList = true)
         }
